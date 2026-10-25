@@ -7,7 +7,7 @@
 }
 
 :root {
-  --u: calc(100vw / 1920);   /* 1 design pixel of the 1920 px mockup */
+  --u: 1px;                  /* positions are real pixels: the page is a large scrollable canvas */
   --blue: #4f99ff;           /* R79 G153 B255 */
 }
 
@@ -15,20 +15,24 @@
 html, body { margin: 0; }
 body { background: #000; color: #fff; min-height: 100vh; }
 
-/* wallpaper: created by wallpaper.js, stretched to the screen (distortion is intended) */
+/* wallpaper: created by wallpaper.js; 6000 px wide, as high as the image proportions give.
+   The visitor starts in its top left corner and scrolls around on it. */
 #wallpaper {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: -1;
-  background: #000 center / 100% 100% no-repeat;
+  display: block;
+  width: 6000px;
+  max-width: none;
+  height: auto;
 }
 
 .stage {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
-  --fs1: max(16px, calc(var(--u) * 32));
-  --fs2: max(11px, calc(var(--u) * 19));
+  --fs1: 32px;
+  --fs2: 19px;
 }
 
 .item {
@@ -39,7 +43,7 @@ body { background: #000; color: #fff; min-height: 100vh; }
   align-items: center;
   white-space: nowrap;
 }
-.item.center { left: 50%; transform: translateX(-50%); }
+.item.center { left: calc(960 * var(--u)); transform: translateX(-50%); }
 
 /* Style1: black frame, blue stroke, Times New Roman Italic */
 .s1 {
