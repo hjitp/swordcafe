@@ -7,7 +7,7 @@
 }
 
 :root {
-  --u: 1px;                  /* positions are real pixels: the page is a large scrollable canvas */
+  --u: calc(100vw / 1920);   /* 1 design pixel of the 1920 px mockup */
   --blue: #4f99ff;           /* R79 G153 B255 */
 }
 
@@ -15,24 +15,20 @@
 html, body { margin: 0; }
 body { background: #000; color: #fff; min-height: 100vh; }
 
-/* wallpaper: created by wallpaper.js; 6000 px wide, as high as the image proportions give.
-   The visitor starts in its top left corner and scrolls around on it. */
+/* wallpaper: created by wallpaper.js, stretched to the screen (distortion is intended) */
 #wallpaper {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  inset: 0;
   z-index: -1;
-  display: block;
-  width: 6000px;
-  max-width: none;
-  height: auto;
+  background: #000 center / 100% 100% no-repeat;
 }
 
 .stage {
   position: relative;
   min-height: 100vh;
-  --fs1: 32px;
-  --fs2: 19px;
+  overflow: hidden;
+  --fs1: max(16px, calc(var(--u) * 32));
+  --fs2: max(11px, calc(var(--u) * 19));
 }
 
 .item {
@@ -43,7 +39,7 @@ body { background: #000; color: #fff; min-height: 100vh; }
   align-items: center;
   white-space: nowrap;
 }
-.item.center { left: calc(960 * var(--u)); transform: translateX(-50%); }
+.item.center { left: 50%; transform: translateX(-50%); }
 
 /* Style1: black frame, blue stroke, Times New Roman Italic */
 .s1 {
@@ -64,6 +60,29 @@ body { background: #000; color: #fff; min-height: 100vh; }
   padding: 0.42em;                 /* 8 px at 19 px */
 }
 
+/* Column of Style2 paragraphs (About page) */
+.item.col {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(14 * var(--u));
+  white-space: normal;
+  max-width: calc(540 * var(--u));
+}
+.item.col p { margin: 0; }
+
+/* Text box for running text (About etc.): Style2 text in a black frame with the blue stroke */
+.box {
+  font: 700 var(--fs2) / 1.5 Rounded, Arial, sans-serif;
+  color: #fff;
+  background: #000;
+  border: 1px solid var(--blue);
+  padding: 0.8em 1em;
+  white-space: normal;
+  max-width: calc(640 * var(--u));
+}
+.box p { margin: 0; }
+.box p + p { margin-top: 1em; }
+
 /* Phones: stack everything in one column */
 @media (max-width: 760px) {
   .stage {
@@ -82,4 +101,5 @@ body { background: #000; color: #fff; min-height: 100vh; }
   }
   .item.center, .item.about { align-self: center; }
   .item.about { margin-bottom: 24px; }
+  .box, .item.col { max-width: 100%; }
 }
