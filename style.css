@@ -1,0 +1,81 @@
+/* Style2 font: Helvetica Rounded / Arial Rounded (system fonts), mapped to bold so nothing is faked */
+@font-face {
+  font-family: "Rounded";
+  src: local("Helvetica Rounded Bold"), local("HelveticaRounded-Bold"),
+       local("Arial Rounded MT Bold"), local("ArialRoundedMTBold");
+  font-weight: 700;
+}
+
+:root {
+  --u: calc(100vw / 1920);   /* 1 design pixel of the 1920 px mockup */
+  --blue: #4f99ff;           /* R79 G153 B255 */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: #000; color: #fff; min-height: 100vh; }
+
+/* wallpaper: created by wallpaper.js, stretched to the screen (distortion is intended) */
+#wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #000 center / 100% 100% no-repeat;
+}
+
+.stage {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  --fs1: max(16px, calc(var(--u) * 32));
+  --fs2: max(11px, calc(var(--u) * 19));
+}
+
+.item {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.item.center { left: 50%; transform: translateX(-50%); }
+
+/* Style1: black frame, blue stroke, Times New Roman Italic */
+.s1 {
+  font: italic 400 var(--fs1) / 1.2 "Times New Roman", Times, serif;
+  color: #fff;
+  background: #000;
+  border: 1px solid var(--blue);
+  padding: 0.25em 0.47em;          /* 8 px / 15 px at 32 px */
+  text-decoration: none;
+}
+.s1:hover { text-decoration: underline; }
+.s1:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* Style2: Helvetica Rounded, invisible frame used only for spacing */
+.s2 {
+  font: 700 var(--fs2) / 1.2 Rounded, Arial, sans-serif;
+  color: #fff;
+  padding: 0.42em;                 /* 8 px at 19 px */
+}
+
+/* Phones: stack everything in one column */
+@media (max-width: 760px) {
+  .stage {
+    --fs1: 22px;
+    --fs2: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px 16px 48px;
+  }
+  .item, .item.center {
+    position: static;
+    transform: none;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+  .item.center, .item.about { align-self: center; }
+  .item.about { margin-bottom: 24px; }
+}
